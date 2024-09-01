@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Pay Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color:#B0B0B0;
+            color: #333;
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        td a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        td a:hover {
+            text-decoration: underline;
+        }
+        .actions, .invoice {
+            text-align: center;
+        }
+        .export-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .export-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: background-color 0.3s ease;
+        }
+        .export-button:hover {
+            background-color: #0056b3;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Pay Details</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Time Period</th>
+                <th>Regular Hours</th>
+                <th>Overtime Hours</th>
+                <th>Final Pay</th>
+                <th class="actions">Actions</th>
+                <th class="invoice">Paystub</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            {% if employee.fortnight_start != None and employee.fortnight_end != None %}
+            <tr>
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.position }}</td>
+                <td>{{ employee.fortnight_start }} - {{ employee.fortnight_end }}</td>
+                <td>{{ employee.regular_hours }}</td>
+                <td>{{ employee.overtime_hours }}</td>
+                <td>{{ employee.final_pay }}</td>
+                <td class="actions">
+                    <a href="{% url 'delete_employee' employee.id %}" onclick="return confirm('Are you sure you want to delete this employee?');">Delete</a>
+                </td>
+                <td class="invoice">
+                    <a href="{% url 'create_invoice_pdf' employee.id %}">Invoice</a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="export-buttons">
+        <a href="{% url 'export_employees_to_excel' %}?location={{ selected_location_id }}" class="export-button">Excel</a>
+        <a href="{% url 'export_employees_to_pdf' %}?location={{ selected_location_id }}" class="export-button">PDF</a>
+    </div>
+    <a href="{% url 'employee_list' %}" class="back-link">Back to Employee List</a>
+</body>
+</html>

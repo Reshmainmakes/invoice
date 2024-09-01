@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #808080;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh; /* Ensure body covers full viewport height */
+        }
+        .header {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .card-header {
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .language-switcher {
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .language-switcher a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 16px;
+        }
+        .language-switcher a:hover {
+            text-decoration: underline;
+        }
+        .alert-danger {
+            color: red;
+        }
+        .logo {
+            max-width: 450px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<img src="{% static 'images/3a.png' %}" alt=" Logo" class="logo">
+    <div class="header" data-lang-en="Welcome to the Login Page" >
+       Welcome to the Login Page
+    </div>
+    <div class="card">
+        <div class="card-header" data-lang-en="Enter Code to Login" >
+            Enter Code to Login
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" id="code" name="code" placeholder="Code eingeben" data-lang-en="Enter code" >
+                </div>
+                {% if error_message %}
+                    <div class="alert alert-danger" role="alert" data-lang-en="Invalid code, please try again." >
+                        {{ error_message }}
+                    </div><br>
+                {% endif %}
+                <input type="submit" class="btn btn-primary btn-block" data-lang-en="Submit"  value="Submit">
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+
+
+
+            // Update placeholder attribute
+            var inputElement = document.getElementById('code');
+            if (inputElement) {
+                inputElement.placeholder = inputElement.getAttribute('data-lang-' + language);
+            }
+            // Update submit button value
+            var submitButton = document.querySelector('input[type="submit"]');
+            if (submitButton.getAttribute('data-lang-en')) {
+                submitButton.value = submitButton.getAttribute('data-lang-' + language);
+            }
+        }
+
+
+    </script>
+</body>
+</html>

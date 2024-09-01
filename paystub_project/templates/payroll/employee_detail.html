@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Details for {{ employee.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #B0B0B0;
+            color: #333;
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        form p {
+            margin: 0;
+            width: 100%;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        form input, form select {
+            width: calc(50% - 15px); /* Adjust width to fit two fields per row */
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        form button {
+            background-color: #004080;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        form button:hover {
+            background-color: #003366;
+        }
+
+        a {
+            display: inline-block;
+            margin: 20px;
+            color: #004080;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+        .home-button {
+            display: block;
+            width: 100px;
+            margin: 20px auto;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .home-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Payment Details for {{ employee.name }}</h1>
+    <form id="payment-form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+<a href="{% url 'login' %}" class="home-button" data-lang-en="Home">Home</a>
+    <script>
+        document.getElementById('payment-form').addEventListener('submit', function(event) {
+            // Select the date fields
+            const dateFields = document.querySelectorAll('input[type="date"]');
+            let allDatesSelected = true;
+
+            // Check if all date fields are filled
+            dateFields.forEach(function(field) {
+                if (!field.value) {
+                    allDatesSelected = false;
+                }
+            });
+
+            // Prevent form submission if any date field is empty
+            if (!allDatesSelected) {
+                event.preventDefault();
+                alert('Please select all required date fields before submitting the form.');
+            }
+        });
+    </script>
+</body>
+</html>

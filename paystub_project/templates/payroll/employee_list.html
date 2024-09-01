@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee List</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #B0B0B0; /* Light gray background for a modern look */
+    color: #333;
+}
+
+h1 {
+    color: #333; /* Darker gray for better contrast with light background */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+select {
+    padding: 10px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff; /* White background for select element */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff; /* White background for the table */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    border: 1px solid #ddd; /* Light gray border */
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f9f9f9; /* Very light gray for headers */
+    color: #333;
+}
+
+td a {
+    color: #007bff; /* Blue for links */
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff; /* Blue button color */
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3; /* Darker blue for hover effect */
+}
+.home-button {
+            display: block;
+            width: 100px;
+            margin: 20px auto;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .home-button:hover {
+            background-color: #218838;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Employee List</h1>
+
+    <!-- Location Filter Form -->
+    <form method="GET" action="">
+        <label for="location">Select Location:</label>
+        <select name="location" id="location" onchange="this.form.submit()">
+            <option value="">-- All Locations --</option>
+            {% for loc in locations %}
+                <option value="{{ loc }}" {% if loc == selected_location %}selected{% endif %}>{{ loc }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <!-- Buttons -->
+    <div style="text-align: center;">
+        <a href="{% url 'employee_create' %}" class="button">Add New Employee</a>
+        <a href="{% url 'employee_table' %}" class="button">Employee Dashboard</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+
+        </tr>
+        {% for employee in employees %}
+        <tr>
+            <td><a href="{% url 'employee_detail' employee.pk %}">{{ employee.name }}</a></td>
+            <td>{{ employee.position }}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+<a href="{% url 'login' %}" class="home-button" data-lang-en="Home">Home</a>
+</body>
+</html>
